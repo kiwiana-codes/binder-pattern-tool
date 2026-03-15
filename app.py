@@ -14,7 +14,7 @@ if not ACCESS_CODE:
     st.info("Administrators: Please set the `access_code` in your Streamlit Cloud 'Secrets' panel or local `.streamlit/secrets.toml` file.")
     st.stop()
 
-st.set_page_config(page_title="MJ's Custom Binder Pattern", page_icon="✂️", layout="wide")
+st.set_page_config(page_title="MJ's Custom Binder Pattern", page_icon="🏳️‍⚧️", layout="wide")
 
 # --- CUSTOM CSS ---
 st.markdown("""
