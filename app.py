@@ -6,10 +6,15 @@ from reportlab.lib.pagesizes import A4, LETTER
 from reportlab.lib import colors
 
 # Configuration
-VERSION = "21.0-LETTER"
-ACCESS_CODE = "MJ-BINDER-2026"
+VERSION = "22.1-SECURE"
+ACCESS_CODE = st.secrets.get("access_code", None)
 
-st.set_page_config(page_title="Binder Pattern Creator", page_icon="✂️", layout="wide")
+if not ACCESS_CODE:
+    st.error("🚀 **App Configuration Required**")
+    st.info("Administrators: Please set the `access_code` in your Streamlit Cloud 'Secrets' panel or local `.streamlit/secrets.toml` file.")
+    st.stop()
+
+st.set_page_config(page_title="MJ's Custom Binder Pattern", page_icon="✂️", layout="wide")
 
 # --- CUSTOM CSS ---
 st.markdown("""
@@ -22,13 +27,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- PASSWORD GATE ---
+# --- PASSWORD ---
 with st.sidebar:
-    st.title("✂️ MJ Binder Pattern")
-    code = st.text_input("Access Code", type="password", help="Enter the code from your purchase receipt.")
+    st.title("MJ's Custom Binder Pattern")
+    code = st.text_input("Access Code", type="password", help="Enter the code from the instructions you received after purchasing.")
     
     if not code:
-        st.info("Please enter the access code provided in your purchase receipt to use this tool.")
+        st.info("Please enter the access code provided found in the instructions you received after purchasing to access this tool. Found this app without purchasing? You can buy the pattern at https://ko-fi.com/kiwiana/shop.")
         st.stop()
     elif code != ACCESS_CODE:
         st.error("Incorrect Access Code.")
@@ -282,7 +287,7 @@ with col1:
     st.title("Binder Pattern Creator")
     st.markdown(f"Draft custom compression binders in **{unit_mode.split(' ')[0]}**. Tiled PDF includes a precision scale check.")
     
-    # Hidden Calculation logic (as requested)
+    # Hidden Calculation logic
     # st.markdown(f"""
     # <div class="info-card">
     #     <b>📐 Pattern Drafting Requirements ({unit_label}):</b><br/>
@@ -298,7 +303,7 @@ with col1:
     # A4 Button
     pdf_a4 = generate_pdf(pattern, {"A":A, "B":B}, is_metric, A4)
     st.download_button(
-        label=f"📥 Download Tiled PDF (A4 - {unit_label})",
+        label=f"Download Tiled PDF (A4 - {unit_label})",
         data=pdf_a4,
         file_name=f"binder_pattern_{A}_{B}_A4_{unit_label}.pdf",
         mime="application/pdf"
@@ -307,11 +312,20 @@ with col1:
     # Letter Button
     pdf_letter = generate_pdf(pattern, {"A":A, "B":B}, is_metric, LETTER)
     st.download_button(
-        label=f"📥 Download Tiled PDF (US Letter - {unit_label})",
+        label=f"Download Tiled PDF (US Letter - {unit_label})",
         data=pdf_letter,
         file_name=f"binder_pattern_{A}_{B}_Letter_{unit_label}.pdf",
         mime="application/pdf"
     )
+
+    st.markdown(f"""
+    <div class="info-card" style="border: 1px solid #4f46e5; background: rgba(79, 70, 229, 0.1); margin-top: 2rem;">
+        <p style="font-size: 0.9rem; margin: 0;">
+            <b>Support my journey!</b><br/>
+            This pattern is for sale via my Ko-Fi store. If the access code for this app has been shared with you without purchasing, I'd really appreciate you making a donation at <a href="https://ko-fi.com/kiwiana" target="_blank" style="color: #6366f1;">ko-fi.com/kiwiana</a>&mdash;every little bit gets me closer to my top surgery!
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
     # SVG Preview
