@@ -273,16 +273,17 @@ def generate_pdf(pattern, inputs, is_metric, page_size=A4):
 # --- APP UI ---
 with st.sidebar:
     st.divider()
+    st.info("See the instructions you received after purchasing on Ko-Fi for details about how to take these measurements.")
     if is_metric:
         A = st.number_input("Chest (Below Armpits) cm", 50, 200, 90)
-        B = st.number_input("Shoulder to Waist cm", 20, 100, 40)
-        C = st.number_input("Armpit to Waist cm", 10, 80, 20)
-        D = st.number_input("Waist Circumference cm", 40, 200, 80)
+        B = st.number_input("Shoulder to Hem cm", 20, 100, 40)
+        C = st.number_input("Armpit to Hem cm", 10, 80, 20)
+        D = st.number_input("Hem Circumference cm", 40, 200, 80)
     else:
         A = st.number_input("Chest (Below Armpits) inches", 20.0, 80.0, 35.5)
-        B = st.number_input("Shoulder to Waist inches", 8.0, 40.0, 15.75)
-        C = st.number_input("Armpit to Waist inches", 4.0, 32.0, 8.0)
-        D = st.number_input("Waist Circumference inches", 15.0, 80.0, 31.5)
+        B = st.number_input("Shoulder to Hem inches", 8.0, 40.0, 15.75)
+        C = st.number_input("Armpit to Hem inches", 4.0, 32.0, 8.0)
+        D = st.number_input("Hem Circumference inches", 15.0, 80.0, 31.5)
     st.divider()
     st.markdown(f"**App Version:** {VERSION}")
 
