@@ -155,6 +155,12 @@ def calculate_pattern(A_raw, B_raw, C_raw, D_raw, is_metric):
     s_arm_d = get_ribbon_d((s_c[4], s_c[5]), (s_c[2], s_c[5]), (s_c[2], s_c[0]), STRIP_1, True)
     strips.append({"label": "WEBBING ARMPIT - WEBBING (CUT 4)", "d": s_arm_d, "color": "#dc2626", "h": abs(s_c[5]-s_c[0])+STRIP_1*5})
 
+    # Stiff Panel Accessories
+    strips.append({"label": "STIFF PANEL BACK HEM - FUSIBLE WEBBING (CUT 1)", "d": f"M {-s_c[7]} 0 L {s_c[7]} 0 L {s_c[7]} {STRIP_HEM} L {-s_c[7]} {STRIP_HEM} Z", "color": "#dc2626", "h": STRIP_HEM*8})
+
+    strap_w_stiff = s_c[2] - s_c[1]
+    strips.append({"label": "STIFF PANEL SHOULDER STRIPS - FUSIBLE WEBBING (CUT 2)", "d": f"M 0 0 L {strap_w_stiff} 0 L {strap_w_stiff} {STRIP_1} L 0 {STRIP_1} Z", "color": "#dc2626", "h": STRIP_1*5})
+
     view_mult = 1 if is_metric else 2.54
     return {
         "front": front, "back": back, "stiff": stiff, "strips": strips,
