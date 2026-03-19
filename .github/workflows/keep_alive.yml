@@ -1,0 +1,26 @@
+name: Keep Streamlit Awake
+
+on:
+  schedule:
+    # This runs every 8 hours (00:00, 08:00, 16:00 UTC)
+    - cron: '0 */8 * * *'
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update ping file
+        run: |
+          echo "Last heartbeat: $(date)" > ping.txt
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add ping.txt
+          git commit -m "Heartbeat to keep Streamlit awake" || exit 0
+          git push
