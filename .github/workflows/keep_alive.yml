@@ -2,16 +2,23 @@ name: Keep Streamlit Awake
 
 on:
   schedule:
-    # This runs every 8 hours (00:00, 08:00, 16:00 UTC)
     - cron: '0 */8 * * *'
-  workflow_dispatch: # Allows you to run it manually for testing
+  workflow_dispatch:
+
+# Fixes the Node.js 24 warning globally for this file
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   auto-commit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
     steps:
+      # Updated from v4 to v6 to support Node 24
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Update ping file
         run: |
@@ -22,5 +29,6 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add ping.txt
+          # The "|| exit 0" prevents the script from failing if nothing changed
           git commit -m "Heartbeat to keep Streamlit awake" || exit 0
           git push
