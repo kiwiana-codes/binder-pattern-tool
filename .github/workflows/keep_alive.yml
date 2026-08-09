@@ -29,10 +29,8 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add ping.txt
-          # The "|| exit 0" prevents the script from failing if nothing changed
           git commit -m "Heartbeat to keep Streamlit awake" || exit 0
           
-          # Pull any new changes that happened while the action was running
+          # Pull latest changes and rebase local commit on top
           git pull --rebase origin main
-          
           git push
